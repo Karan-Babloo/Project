@@ -26,7 +26,7 @@ PgAdmin (Postgres)
 Node js (React)
 ```
 Since H2 didn't had support for inMEM postGres mode had to go with original installation
-![alt text](https://ibb.co/qnjGpCt)
+![alt text](https://ibb.co/qnjGpCt][img]https://i.ibb.co/ZJXsxSn/Screenshot-2021-02-07-142734.png)
 
 **4. Referred sorces**
 ```
