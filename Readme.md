@@ -25,8 +25,6 @@ Maven
 PgAdmin (Postgres)
 Node js (React)
 ```
-Since H2 didn't had support for inMEM postGres mode had to go with original installation
-![H2 In_MEM](https://i.ibb.co/ZJXsxSn/Screenshot-2021-02-07-142734.png)
 
 **4. Referred sorces**
 ```
@@ -34,3 +32,8 @@ https://hellokoding.com/jpa-many-to-many-extra-columns-relationship-mapping-exam
 https://bezkoder.com/spring-boot-react-postgresql/
 https://stackoverflow.com/questions/53961912/in-a-postgresql-database-where-a-seller-has-many-products-and-products-have-many
 ```
+
+Since H2 didn't had support for inMEM postGres mode had to go with original installation
+![alt text](https://github.com/Karan-Babloo/Project/blob/master/resources/Screenshot%202021-02-07%20142734.png?raw=true)
+App
+![alt text](https://github.com/Karan-Babloo/Project/blob/master/resources/Screenshot%202021-02-07%20143109.png)
