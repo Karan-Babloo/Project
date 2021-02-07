@@ -9,7 +9,6 @@ export default class TutorialsList extends Component {
     this.retrieveTutorials = this.retrieveTutorials.bind(this);
     this.refreshList = this.refreshList.bind(this);
     this.setActiveTutorial = this.setActiveTutorial.bind(this);
-    this.removeAllTutorials = this.removeAllTutorials.bind(this);
     this.searchTitle = this.searchTitle.bind(this);
 
     this.state = {
@@ -31,6 +30,7 @@ export default class TutorialsList extends Component {
       searchTitle: searchTitle
     });
   }
+
 
   retrieveTutorials() {
     TutorialDataService.getAll()
@@ -60,17 +60,6 @@ export default class TutorialsList extends Component {
     });
   }
 
-  removeAllTutorials() {
-    TutorialDataService.deleteAll()
-      .then(response => {
-        console.log(response.data);
-        this.refreshList();
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  }
-
   searchTitle() {
     this.setState({
       currentTutorial: null,
@@ -91,10 +80,9 @@ export default class TutorialsList extends Component {
 
   render() {
     const { searchTitle, tutorials, currentTutorial, currentIndex } = this.state;
-
     return (
       <div className="list row">
-        <div className="col-md-8">
+        {/* <div className="col-md-8">
           <div className="input-group mb-3">
             <input
               type="text"
@@ -113,7 +101,7 @@ export default class TutorialsList extends Component {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="col-md-6">
           <h4>Products List</h4>
 
@@ -134,17 +122,11 @@ export default class TutorialsList extends Component {
               ))}
           </ul>
           <Link
-                to={`/tutorials/ `}
-                className="m-3 btn btn-sm btn-info"
-              >
-                Insert
-          </Link>
-          <button
-            className="m-3 btn btn-sm btn-danger"
-            onClick={this.removeAllTutorials}
+            to={"/tutorials/new"}
+            className="m-3 btn btn-sm btn-info"
           >
-            Remove All
-          </button>
+            Insert
+          </Link>
         </div>
         <div className="col-md-6">
           {currentTutorial ? (
@@ -158,6 +140,12 @@ export default class TutorialsList extends Component {
               </div>
               <div>
                 <label>
+                  <strong>ProductID:</strong>
+                </label>{" "}
+                {currentTutorial.id}
+              </div>
+              <div>
+                <label>
                   <strong>ProductName:</strong>
                 </label>{" "}
                 {currentTutorial.productName}
@@ -168,20 +156,57 @@ export default class TutorialsList extends Component {
                 </label>{" "}
                 {currentTutorial.createDate}
               </div>
-
               <Link
-                to={"/tutorials/" + currentTutorial.productSku}
+                to={"/tutorials/" + currentTutorial.id}
                 className="badge badge-warning"
               >
-                Edit
+                Edit Product
               </Link>
+              <div >
+              <br></br>
+              <br></br>
+              <br></br>
+              <h4>Available Sellers</h4>
+              </div>
+              <div>
+                {currentTutorial.productSeller &&
+                  currentTutorial.productSeller.map((sellerinfo, index) => (
+                    
+                    <div>
+                      <div style={{color:'red'}}>
+                        <label>
+                        </label>{" "}
+                        <h4>{"Seller - " + (index + 1 )}</h4>
+                      </div>
+                      <div>
+                        <label>
+                          <strong>SellerName:</strong>
+                        </label>{" "}
+                        {sellerinfo.seller.sellerName}
+                      </div>
+                      <div>
+                        <label>
+                          <strong>InventoryAmount:</strong>
+                        </label>{" "}
+                        {sellerinfo.seller.inventoryAmount}
+                      </div>
+                      <div>
+                        <label>
+                          <strong>Price:</strong>
+                        </label>{" "}
+                        {sellerinfo.price}
+                      </div>
+                    </div>
+                  ))}
+              </div>
+
             </div>
           ) : (
-            <div>
-              <br />
-              <p>Please click on a Product...</p>
-            </div>
-          )}
+              <div>
+                <br />
+                <p>Please click on a Product...</p>
+              </div>
+            )}
         </div>
       </div>
     );

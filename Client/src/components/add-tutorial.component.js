@@ -14,6 +14,8 @@ export default class AddTutorial extends Component {
       title: "",
       description: "", 
       published: false,
+      sellerName:"",
+      inventoryAmount:0,
 
       submitted: false
     };
@@ -21,29 +23,28 @@ export default class AddTutorial extends Component {
 
   onChangeTitle(e) {
     this.setState({
-      title: e.target.value
+      sellerName: e.target.value
     });
   }
 
   onChangeDescription(e) {
     this.setState({
-      description: e.target.value
+      inventoryAmount: e.target.value
     });
   }
 
   saveTutorial() {
     var data = {
-      title: this.state.title,
-      description: this.state.description
+      "sellerName": this.state.sellerName,
+      "inventoryAmount": this.state.inventoryAmount
     };
 
-    TutorialDataService.create(data)
+    TutorialDataService.createSeller(data)
       .then(response => {
         this.setState({
           id: response.data.id,
-          title: response.data.title,
-          description: response.data.description,
-          published: response.data.published,
+          sellerName: response.data.sellerName,
+          inventoryAmount: response.data.inventoryAmount,
 
           submitted: true
         });
@@ -78,26 +79,26 @@ export default class AddTutorial extends Component {
         ) : (
           <div>
             <div className="form-group">
-              <label htmlFor="title">Title</label>
+              <label htmlFor="title">Seller Name</label>
               <input
                 type="text"
                 className="form-control"
                 id="title"
                 required
-                value={this.state.title}
+                value={this.state.sellerName}
                 onChange={this.onChangeTitle}
                 name="title"
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="description">Description</label>
+              <label htmlFor="description">Invertory Amount</label>
               <input
                 type="text"
                 className="form-control"
                 id="description"
                 required
-                value={this.state.description}
+                value={this.state.inventoryAmount}
                 onChange={this.onChangeDescription}
                 name="description"
               />

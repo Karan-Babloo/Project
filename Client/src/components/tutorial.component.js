@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TutorialDataService from "../services/tutorial.service";
 
+
 export default class Tutorial extends Component {
   constructor(props) {
     super(props);
@@ -10,36 +11,37 @@ export default class Tutorial extends Component {
     this.updatePublished = this.updatePublished.bind(this);
     this.updateTutorial = this.updateTutorial.bind(this);
     this.deleteTutorial = this.deleteTutorial.bind(this);
-
+    this.insertTutorial = this.insertTutorial.bind(this);
+    
     this.state = {
       currentTutorial: {
-        id: null,
-        title: "",
-        description: "",
-        published: false
+        createDate: "",
+        productName:"",
+        productSku:""
       },
       message: ""
     };
   }
 
   componentDidMount() {
-    if(this.props.match.params.id){
-      // Insert
+    const exists = this.props.match.params.id
+    console.log('check exists', exists);
+    if(exists !== 'new'){
+      this.getTutorial(this.props.match.params.id);       
     } else {
-      console.log("record exists")
-      this.getTutorial(this.props.match.params.id);
+      // new
     }
-    
+      
   }
 
   onChangeTitle(e) {
     const title = e.target.value;
-
+    console.log('check sku', title);
     this.setState(function(prevState) {
       return {
         currentTutorial: {
           ...prevState.currentTutorial,
-          title: title
+          productSku: title
         }
       };
     });
@@ -47,11 +49,11 @@ export default class Tutorial extends Component {
 
   onChangeDescription(e) {
     const description = e.target.value;
-    
+    console.log('check description', description);
     this.setState(prevState => ({
       currentTutorial: {
         ...prevState.currentTutorial,
-        description: description
+        productName: description
       }
     }));
   }
@@ -93,11 +95,15 @@ export default class Tutorial extends Component {
   }
 
   updateTutorial() {
+    const body = {
+      "id":this.state.currentTutorial.id,
+      "productSku":this.state.currentTutorial.productSku,
+      "productName":this.state.currentTutorial.productName
+    }
     TutorialDataService.update(
       this.state.currentTutorial.id,
-      this.state.currentTutorial
-    )
-      .then(response => {
+      body
+    ).then(response => {
         console.log(response.data);
         this.setState({
           message: "The tutorial was updated successfully!"
@@ -109,7 +115,23 @@ export default class Tutorial extends Component {
   }
 
   deleteTutorial() {    
-    TutorialDataService.delete(this.state.currentTutorial.productSku)
+    TutorialDataService.delete(this.state.currentTutorial.id)
+      .then(response => {
+        console.log(response.data);
+        this.props.history.push('/tutorials')
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+
+  insertTutorial() {    
+    const body = {
+      "productSku":this.state.currentTutorial.productSku,
+      "productName":this.state.currentTutorial.productName
+    }
+    console.log('here is the body', body);
+    TutorialDataService.insert(body)
       .then(response => {
         console.log(response.data);
         this.props.history.push('/tutorials')
@@ -121,7 +143,31 @@ export default class Tutorial extends Component {
 
   render() {
     const { currentTutorial } = this.state;
+    const renderDeletUpdateButton = ()=>{
+        return <div>
+        <button
+        className="badge badge-info mr-info mr-2"
+        onClick={this.insertTutorial}
+      >
+        Insert
+      </button>
 
+      <button
+        type="submit"
+        className="badge badge-success mr-2"
+        onClick={this.updateTutorial}
+      >
+        Update
+      </button>
+
+      <button
+        className="badge badge-danger"
+        onClick={this.deleteTutorial}
+      >
+        Delete
+      </button>
+      </div>
+    }
     return (
       <div>
         {currentTutorial ? (
@@ -148,45 +194,8 @@ export default class Tutorial extends Component {
                   onChange={this.onChangeDescription}
                 />
               </div>
-
-              {/* <div className="form-group">
-                <label>
-                  <strong>Status:</strong>
-                </label>
-                {currentTutorial.published ? "Published" : "Pending"}
-              </div> */}
-            </form>
-
-            {/* {currentTutorial.published ? (
-              <button
-                className="badge badge-primary mr-2"
-                onClick={() => this.updatePublished(false)}
-              >
-                UnPublish
-              </button>
-            ) : (
-              <button
-                className="badge badge-primary mr-2"
-                onClick={() => this.updatePublished(true)}
-              >
-                Publish
-              </button>
-            )} */}
-            <button
-              className="badge badge-danger mr-2"
-              onClick={this.deleteTutorial}
-            >
-              Delete
-            </button>
-
-            <button
-              type="submit"
-              className="badge badge-success"
-              onClick={this.updateTutorial}
-            >
-              Update
-            </button>
-            <p>{this.state.message}</p>
+              </form>
+            {renderDeletUpdateButton()}
           </div>
         ) : (
           <div>

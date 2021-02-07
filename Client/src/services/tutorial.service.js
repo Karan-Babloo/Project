@@ -10,25 +10,22 @@ class TutorialDataService {
     return http.get(`/product/${id}`);
   }
 
-  create(data) {
-    return http.post("/tutorials", data);
+  insert(data) {
+    return http.post("/product", data);
   }
 
   update(id, data) {
-    return http.put(`/tutorials/${id}`, data);
+    return http.put(`/product/${id}`, data);
   }
 
   delete(id) {
     return http.delete(`/product/${id}`);
   }
 
-  deleteAll() {
-    return http.delete(`/tutorials`);
+  createSeller(data){
+    return http.post("/seller", data);
   }
 
-  findByTitle(title) {
-    return http.get(`/tutorials?title=${title}`);
-  }
 }
 
 export default new TutorialDataService();
