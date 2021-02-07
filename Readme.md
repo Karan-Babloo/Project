@@ -2,14 +2,6 @@
 
 [Spring Boot, PostgreSQL, JPA, Hibernate RESTful CRUD API Example]
 
-## Steps to Setup
-
-**1. Clone the repository**
-
-```bash
-git clone https://github.com/callicoder/spring-boot-postgresql-jpa-hibernate-rest-api-demo.git
-```
-
 **2. Configure PostgreSQL**
 
 First, create a database named `postgres_demo`. Then, open `src/main/resources/application.properties` file and change the spring datasource username and password as per your PostgreSQL installation.
@@ -26,4 +18,12 @@ Alternatively, you can package the application in the form of a JAR file and the
 
 ```bash
 mvn clean package
+```
+
+
+**3. Referred sorces**
+```bash
+https://stackoverflow.com/questions/53961912/in-a-postgresql-database-where-a-seller-has-many-products-and-products-have-many
+https://hellokoding.com/jpa-many-to-many-extra-columns-relationship-mapping-example-with-spring-boot-hsql/
+https://bezkoder.com/spring-boot-react-postgresql/
 ```
